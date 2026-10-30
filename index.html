@@ -407,7 +407,7 @@
 </div>
 
 <script src="site.js"></script>
-<script src="content.js"></script>
+<script>document.write('<script src="content.js?v=' + Date.now() + '"><\/script>');</script>
 <script>
 (function () {
   "use strict";
@@ -566,8 +566,14 @@
       if (res && String(res.success) === "true") {
         show("ok", "Thanks, " + name + ". Your request has been sent. I'll get back to you soon.");
         form.reset();
-      } else { throw new Error((res && res.message) || "failed"); }
-    }).catch(function () {
+      } else {
+        var m = (res && res.message) || "";
+        if (window.console) console.log("Form service reply:", m);
+        if (/activat/i.test(m)) show("err", "This form is waiting to be activated. An activation email has been sent to the site owner. Meanwhile, please message me on WhatsApp at +977 9761768876.");
+        else throw new Error(m || "failed");
+      }
+    }).catch(function (e) {
+      if (window.console) console.log("Form error:", e && e.message);
       show("err", "Your request couldn't be sent right now. Please message me on WhatsApp at +977 9761768876 or email bibekjha.np@gmail.com.");
     }).then(function () { submitBtn.disabled = false; submitBtn.textContent = "Send request"; });
   });
