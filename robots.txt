@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /article-template.html
+Disallow: /document-template.html
+Sitemap: https://bibekjha.com.np/sitemap.xml
